@@ -68,12 +68,30 @@ void Player::update()
 
     setPos(lastPos_ + vel_);
     setLayer(getHitbox().y + getPos().y);
-
+	vel_ = {0,0};
 
     handleCollisions();
     checkSides();
 }
 
+void Player::moveLeft()
+{
+	vel_.x -= speed_;
+}
+void Player::moveRight()
+{
+	vel_.x += speed_;
+}
+void Player::moveUp()
+{
+	vel_.y -= speed_;
+}
+void Player::moveDown()
+{
+	vel_.y += speed_;
+}
+
+/* done differently now
 void Player::move(int rotation, bool moving)
 {
     if (moving)
@@ -117,6 +135,7 @@ void Player::move(int rotation, bool moving)
         }
     }
 }
+*/
 
 //TODO Remove magic numbers
 void Player::checkSides()

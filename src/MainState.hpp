@@ -4,6 +4,7 @@
 #include "Engine/System/State.hpp"
 #include "Engine/Utility/Vector.hpp"
 #include "Engine/Graphics/Image.hpp"
+#include "Engine/System/EventHandler.hpp"
 
 class Player;
 class Room;
@@ -31,7 +32,15 @@ public:
 
     Room const* currentRoom();
 
+	void initEventHandler();
+
+	bool playerLeft(const tank::EventArgs& args);
+	bool playerRight(const tank::EventArgs& args);
+	bool playerUp(const tank::EventArgs& args);
+	bool playerDown(const tank::EventArgs& args);
+	/*
     virtual void handleEvents(sf::Keyboard::Key) override;
+	*/
     virtual void update() override;
     virtual void draw() override;
 

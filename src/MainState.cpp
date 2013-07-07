@@ -1,8 +1,10 @@
 #include "MainState.hpp"
 
 #include <algorithm>
+#include <functional>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Event.hpp>
+
 #include "Engine/System/Game.hpp"
 #include "Room.hpp"
 #include "Player.hpp"
@@ -41,6 +43,7 @@ MainState::MainState()
     const float playerPos = 8 * Tile::TILE_SIZE;
     player_ = currentRoom_->makeEntity<Player>(tank::Vectorf{playerPos, playerPos},
                                                this);
+	initEventHandler();
 }
 
 MainState::~MainState()
@@ -101,6 +104,53 @@ void MainState::pause()
     }
 }
 
+void MainState::initEventHandler()
+{
+	tank::Game::log << "Initialise the event handler" << std::endl;
+	tank::EventHandler& evtHandler = getEventHandler();
+	evtHandler.registerEvent("PlayerLeft", tank::EventType::button_held);
+
+	evtHandler.registerEventListener("PlayerLeft", std::bind(&MainState::playerLeft, this, std::placeholders::_1));
+	evtHandler.registerKey(sf::Keyboard::Key::A, "PlayerLeft");
+
+	evtHandler.registerEvent("PlayerRight", tank::EventType::button_held);
+	evtHandler.registerEventListener("PlayerRight", std::bind(&MainState::playerRight, this, std::placeholders::_1));
+	evtHandler.registerKey(sf::Keyboard::Key::D, "PlayerRight");
+
+	evtHandler.registerEvent("PlayerUp", tank::EventType::button_held);
+	evtHandler.registerEventListener("PlayerUp", std::bind(&MainState::playerUp, this, std::placeholders::_1));
+	evtHandler.registerKey(sf::Keyboard::Key::W, "PlayerUp");
+
+	evtHandler.registerEvent("PlayerDown", tank::EventType::button_held);
+	evtHandler.registerEventListener("PlayerDown", std::bind(&MainState::playerDown, this, std::placeholders::_1));
+	evtHandler.registerKey(sf::Keyboard::Key::S, "PlayerDown");
+}
+
+bool MainState::playerLeft(const tank::EventArgs& args)
+{
+	player_->moveLeft();
+	return false;
+}
+
+bool MainState::playerRight(const tank::EventArgs& args)
+{
+	player_->moveRight();
+	return false;
+}
+
+bool MainState::playerUp(const tank::EventArgs& args)
+{
+	player_->moveUp();
+	return false;
+}
+
+bool MainState::playerDown(const tank::EventArgs& args)
+{
+	player_->moveDown();
+	return false;
+}
+
+/*
 void MainState::handleEvents(sf::Keyboard::Key ke)
 {
     bool pressed = sf::Keyboard::isKeyPressed(ke);
@@ -148,6 +198,7 @@ void MainState::handleEvents(sf::Keyboard::Key ke)
         }
     }
 }
+*/
 
 void MainState::update()
 {
@@ -155,6 +206,7 @@ void MainState::update()
     {
         currentRoom_->update();
     }
+	getEventHandler().callListeners();
 }
 
 void MainState::draw()
