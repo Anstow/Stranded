@@ -4,6 +4,8 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Event.hpp>
 #include "Engine/System/Game.hpp"
+#include "Engine/System/Entity.hpp"
+#include "Engine/Graphics/BitmapText.hpp"
 #include "Room.hpp"
 #include "Player.hpp"
 #include "Tile.hpp"
@@ -41,6 +43,8 @@ MainState::MainState()
     const float playerPos = 8 * Tile::TILE_SIZE;
     player_ = currentRoom_->makeEntity<Player>(tank::Vectorf{playerPos, playerPos},
                                                this);
+
+    makeEntity<tank::Entity>(tank::Vectorf{10.f, 10.f})->makeGraphic<tank::BitmapText>(font, tank::Vectoru{50, 50})->setText("HELLO");
 }
 
 MainState::~MainState()
@@ -160,6 +164,7 @@ void MainState::update()
 void MainState::draw()
 {
     currentRoom_->draw();
+    tank::State::draw();
 }
 
 tank::Image MainState::font;

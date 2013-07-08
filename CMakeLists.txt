@@ -11,13 +11,9 @@ find_package(Boost 1.53.0 REQUIRED)
 
 include_directories(${Boost_INCLUDE_DIR})
 include_directories(${SFML_INCLUDE_DIR})
-include_directories(${OPENGL_INCLUDE_DIR})
-include_directories(${GLEW_INCLUDE_DIR})
 
 message("Boost_INCLUDE_DIR ${Boost_INCLUDE_DIR}")
 message("SFML_INCLUDE_DIR ${SFML_INCLUDE_DIR}")
-message("OPENGL_INCLUDE_DIR ${OPENGL_INCLUDE_DIR}")
-message("GLEW_INCLUDE_DIR ${GLEW_INCLUDE_DIR}")
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 

@@ -5,6 +5,7 @@
 #include <string>
 #include <algorithm>
 #include <memory>
+#include <stdexcept>
 #include "Object.hpp"
 #include "Player.hpp"
 #include "LargeTreeObject.hpp"
